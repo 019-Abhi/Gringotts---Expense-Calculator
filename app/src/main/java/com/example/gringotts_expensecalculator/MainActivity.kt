@@ -1,4 +1,4 @@
-package com.example.expensecalculator
+package com.example.gringotts_expensecalculator
 
 import android.Manifest
 import android.content.Intent
@@ -7,7 +7,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.expensecalculator.databinding.ActivityMainBinding
+import com.example.gringotts_expensecalculator.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
