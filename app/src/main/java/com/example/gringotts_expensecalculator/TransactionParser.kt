@@ -1,4 +1,4 @@
-package com.example.expensecalculator
+package com.example.gringotts_expensecalculator
 
 object TransactionParser {
 

@@ -4,30 +4,29 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
+import com.example.gringotts_expensecalculator.databinding.ActivityTransactionBinding
 
 class TransactionsActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityTransactionBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_transactions)
+        binding = ActivityTransactionBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         title = "Transactions"
-
-        val tvEmpty = findViewById<TextView>(R.id.tvEmpty)
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
 
         val transactions = TransactionStore.transactions
 
         if (transactions.isEmpty()) {
-            tvEmpty.visibility = View.VISIBLE
-            recyclerView.visibility = View.GONE
+            binding.tvEmpty.visibility = View.VISIBLE
+            binding.recyclerView.visibility = View.GONE
         } else {
-            tvEmpty.visibility = View.GONE
-            recyclerView.visibility = View.VISIBLE
-            recyclerView.layoutManager = LinearLayoutManager(this)
-            recyclerView.adapter = TransactionAdapter(transactions)
+            binding.tvEmpty.visibility = View.GONE
+            binding.recyclerView.visibility = View.VISIBLE
+            binding.recyclerView.layoutManager = LinearLayoutManager(this)
+            binding.recyclerView.adapter = TransactionAdapter(transactions)
         }
     }
 }
