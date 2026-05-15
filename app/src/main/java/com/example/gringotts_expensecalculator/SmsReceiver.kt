@@ -1,11 +1,10 @@
-package com.example.expensecalculator
+package com.example.gringotts_expensecalculator
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.provider.Telephony
 import android.util.Log
-import android.widget.Toast
 
 class SmsReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {

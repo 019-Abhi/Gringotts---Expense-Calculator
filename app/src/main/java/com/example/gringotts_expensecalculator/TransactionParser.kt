@@ -17,7 +17,7 @@ object TransactionParser {
     )
 
     private val merchantRegex = Regex(
-        """(?:at|to)\s+([A-Z][A-Za-z0-9 &\-]{2,30})""",
+        """(?:at|to|by)\s+([A-Za-z0-9 &\-]{2,40})""",
         RegexOption.IGNORE_CASE
     )
 

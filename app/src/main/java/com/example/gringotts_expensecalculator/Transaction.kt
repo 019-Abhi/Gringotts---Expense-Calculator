@@ -1,6 +1,4 @@
-package com.example.expensecalculator
-
-import java.sql.Timestamp
+package com.example.gringotts_expensecalculator
 
 data class Transaction (
     val sender: String,

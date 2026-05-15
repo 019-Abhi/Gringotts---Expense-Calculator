@@ -16,14 +16,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnViewTransactions.setOnClickListener {
-            startActivity(Intent(this, TransactionsActivity::class.java))
-        }
-
         checkSmsPermission()
+
+        android.os.Handler(mainLooper).postDelayed({
+
+            startActivity(Intent(this, TransactionsActivity::class.java))
+            finish()
+
+        }, 3000)
     }
 
     private fun checkSmsPermission() {
