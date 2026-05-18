@@ -9,5 +9,5 @@ import androidx.room.RoomDatabase
 )
 
 abstract class TransactionDatabase : RoomDatabase() {
-    abstract fun transactionDao(): TransactionDAO
+    abstract val dao: TransactionDAO
 }

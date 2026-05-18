@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.gringotts_expensecalculator.databinding.ActivityMainBinding
+import androidx.room.Room
 
 class MainActivity : AppCompatActivity() {
 
