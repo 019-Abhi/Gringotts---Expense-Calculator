@@ -27,6 +27,10 @@
         </receiver>
 
         <activity
+            android:name=".AnalyticsActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".TransactionsActivity"
             android:exported="false" />
 

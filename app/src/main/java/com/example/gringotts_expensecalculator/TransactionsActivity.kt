@@ -3,6 +3,10 @@ package com.example.gringotts_expensecalculator
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gringotts_expensecalculator.databinding.ActivityTransactionBinding
 import kotlinx.coroutines.CoroutineScope
@@ -16,11 +20,33 @@ class TransactionsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         binding = ActivityTransactionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        title = "Transactions"
+        binding.bottomNavigation.bottomNavigation.selectedItemId = R.id.navigation_transactions
+        binding.bottomNavigation.bottomNavigation.setOnItemSelectedListener {
+            if (it.itemId == R.id.navigation_categories) {
+                startActivity(android.content.Intent(this, AnalyticsActivity::class.java))
+                finish()
+                true
+            } else false
+        }
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            binding.root.updatePadding(top = systemBars.top)
+            binding.bottomNavigation.bottomNavigation.updatePadding(bottom = systemBars.bottom)
+            insets
+        }
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+    }
 
+    override fun onResume() {
+        super.onResume()
+        loadTransactions()
+    }
+
+    private fun loadTransactions() {
         val db = TransactionDbBuilder().getDatabase(this)
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -35,7 +61,6 @@ class TransactionsActivity : AppCompatActivity() {
                 } else {
                     binding.tvEmpty.visibility = View.GONE
                     binding.recyclerView.visibility = View.VISIBLE
-                    binding.recyclerView.layoutManager = LinearLayoutManager(this@TransactionsActivity)
                     binding.recyclerView.adapter = TransactionAdapter(transactions)
                 }
             }

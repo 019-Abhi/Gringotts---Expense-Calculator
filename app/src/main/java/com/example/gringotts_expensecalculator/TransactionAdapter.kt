@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gringotts_expensecalculator.databinding.ItemTransactionBinding
 import androidx.core.graphics.toColorInt
+import java.text.DateFormat
+import java.util.Date
 
 class TransactionAdapter(private val items: List<Transaction>) :
     RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
@@ -27,6 +29,8 @@ class TransactionAdapter(private val items: List<Transaction>) :
             tvSender.text = t.sender
             tvAmount.text = "₹${"%.2f".format(t.amount)}"
             tvType.text = t.type
+            tvCategory.text = t.category
+            tvDate.text = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(Date(t.timestamp))
 
             val color = if (t.type == "debit") "#E53935".toColorInt() else "#43A047".toColorInt()
             tvAmount.setTextColor(color)

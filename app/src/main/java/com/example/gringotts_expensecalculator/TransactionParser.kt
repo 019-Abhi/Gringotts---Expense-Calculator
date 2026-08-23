@@ -32,14 +32,15 @@ object TransactionParser {
             else -> return null
         }
 
-        val merchant = merchantRegex.find(rawMessage)?.groupValues?.get(1)?.trim()
+        val merchant = merchantRegex.find(rawMessage)?.groupValues?.get(1)?.trim() ?: "unknown"
 
         return Transaction(
             sender = sender,
             rawMessage = rawMessage,
             amount = amount,
             merchant = merchant,
-            type = type
+            type = type,
+            category = TransactionCategoryClassifier.categorize(merchant, rawMessage, type)
         )
     }
 

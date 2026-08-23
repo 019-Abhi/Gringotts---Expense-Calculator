@@ -9,8 +9,8 @@
     android:layout_marginTop="8dp"
     android:layout_marginBottom="8dp"
     app:cardCornerRadius="12dp"
-    app:cardElevation="2dp"
-    app:cardBackgroundColor="#FFFFFF">
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="#1C2129">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,15 +38,23 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:textColor="#1A1A1A"/>
+                android:textColor="#F7F9FC"/>
 
             <TextView
                 android:id="@+id/tvSender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
-                android:textColor="#9E9E9E"
+                android:textColor="#AAB2BF"
                 android:layout_marginTop="2dp"/>
+
+            <TextView
+                android:id="@+id/tvCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="#AAB2BF"
+                android:textSize="12sp" />
 
         </LinearLayout>
 
@@ -70,7 +78,15 @@
                 android:textSize="11sp"
                 android:textAllCaps="true"
                 android:layout_marginTop="2dp"
-                android:textColor="#9E9E9E"/>
+                android:textColor="#AAB2BF"/>
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="#AAB2BF"
+                android:textSize="10sp" />
 
         </LinearLayout>
 

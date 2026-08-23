@@ -2,21 +2,29 @@ package com.example.gringotts_expensecalculator
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
 class TransactionDbBuilder {
 
-    private var database: TransactionDatabase? = null
-
     fun getDatabase(context: Context): TransactionDatabase{
-
-        if(database == null){
-            database = Room.databaseBuilder(
+        return database ?: synchronized(this) {
+            database ?: Room.databaseBuilder(
                 context.applicationContext,
                 TransactionDatabase::class.java,
                 "transaction_database"
-            ).build()
+            ).addMigrations(MIGRATION_1_2).build().also { database = it }
         }
-        return database!!
+    }
+
+    private companion object {
+        @Volatile private var database: TransactionDatabase? = null
+
+        val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE transactions ADD COLUMN category TEXT NOT NULL DEFAULT 'Uncategorized'")
+            }
+        }
     }
 
 }
