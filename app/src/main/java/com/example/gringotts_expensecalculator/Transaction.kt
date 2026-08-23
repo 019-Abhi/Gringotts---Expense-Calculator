@@ -2,7 +2,7 @@ package com.example.gringotts_expensecalculator
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-@Entity
+@Entity(tableName = "transactions")
 data class Transaction (
 
     @PrimaryKey(autoGenerate = true)

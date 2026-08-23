@@ -23,6 +23,8 @@ class SmsReceiver : BroadcastReceiver() {
 
                 val transaction = TransactionParser.parse(sender?: "Unknown", body)
 
+                Log.d("SMS_TRACKER", "Parsed transaction: $transaction")
+
                 if (transaction != null) {
                     val db = TransactionDbBuilder().getDatabase(context)
                     CoroutineScope(Dispatchers.IO).launch {
