@@ -8,6 +8,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.example.gringotts_expensecalculator.databinding.ActivityTransactionBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.withContext
@@ -28,6 +29,10 @@ class TransactionsActivity : AppCompatActivity() {
         binding.bottomNavigation.bottomNavigation.setOnItemSelectedListener {
             if (it.itemId == R.id.navigation_categories) {
                 startActivity(android.content.Intent(this, AnalyticsActivity::class.java))
+                finish()
+                true
+            } else if (it.itemId == R.id.navigation_settings) {
+                startActivity(android.content.Intent(this, SettingsActivity::class.java))
                 finish()
                 true
             } else false
@@ -61,9 +66,24 @@ class TransactionsActivity : AppCompatActivity() {
                 } else {
                     binding.tvEmpty.visibility = View.GONE
                     binding.recyclerView.visibility = View.VISIBLE
-                    binding.recyclerView.adapter = TransactionAdapter(transactions)
+                    binding.recyclerView.adapter = TransactionAdapter(transactions, ::showCategoryPicker)
                 }
             }
         }
+    }
+
+    private fun showCategoryPicker(transaction: Transaction) {
+        if (transaction.merchantKey == "unknown") return
+        val categories = TransactionCategoryClassifier.availableCategories.toTypedArray()
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Categorize ${transaction.merchant}")
+            .setSingleChoiceItems(categories, categories.indexOf(transaction.category)) { dialog, which ->
+                CoroutineScope(Dispatchers.IO).launch {
+                    TransactionIngestionRepository.changeMerchantCategory(this@TransactionsActivity, transaction, categories[which])
+                    withContext(Dispatchers.Main) { dialog.dismiss(); loadTransactions() }
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 }

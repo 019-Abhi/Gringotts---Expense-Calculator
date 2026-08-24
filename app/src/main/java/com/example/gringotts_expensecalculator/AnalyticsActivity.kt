@@ -32,6 +32,10 @@ class AnalyticsActivity : AppCompatActivity() {
                 startActivity(android.content.Intent(this, TransactionsActivity::class.java))
                 finish()
                 true
+            } else if (it.itemId == R.id.navigation_settings) {
+                startActivity(android.content.Intent(this, SettingsActivity::class.java))
+                finish()
+                true
             } else false
         }
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->

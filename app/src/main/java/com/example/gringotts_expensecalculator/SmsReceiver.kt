@@ -21,16 +21,9 @@ class SmsReceiver : BroadcastReceiver() {
                 Log.d("SMS_TRACKER", "Sender: $sender")
                 Log.d("SMS_TRACKER", "Message: $body")
 
-                val transaction = TransactionParser.parse(sender?: "Unknown", body)
-
-                Log.d("SMS_TRACKER", "Parsed transaction: $transaction")
-
-                if (transaction != null) {
-                    val db = TransactionDbBuilder().getDatabase(context)
-                    CoroutineScope(Dispatchers.IO).launch {
-                        db.dao.insertTransaction(transaction)
-                        Log.d("SMS_TRACKER", "Transaction added: $transaction")
-                    }
+                CoroutineScope(Dispatchers.IO).launch {
+                    val wasAdded = TransactionIngestionRepository.ingest(context, sender ?: "Unknown", body, "SMS", sms.timestampMillis)
+                    Log.d("SMS_TRACKER", if (wasAdded) "Transaction added" else "Ignored non-transaction or duplicate")
                 }
             }
         }

@@ -12,7 +12,9 @@ data class Transaction (
     val rawMessage: String,
     val amount: Double,
     val merchant: String?,
+    val merchantKey: String = "unknown",
     val type: String,
     val category: String = "Uncategorized",
+    val source: String = "SMS",
     val timestamp: Long = System.currentTimeMillis()
 )

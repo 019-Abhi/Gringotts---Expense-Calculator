@@ -13,7 +13,7 @@ class TransactionDbBuilder {
                 context.applicationContext,
                 TransactionDatabase::class.java,
                 "transaction_database"
-            ).addMigrations(MIGRATION_1_2).build().also { database = it }
+            ).addMigrations(MIGRATION_1_2, MIGRATION_2_3).build().also { database = it }
         }
     }
 
@@ -23,6 +23,15 @@ class TransactionDbBuilder {
         val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL("ALTER TABLE transactions ADD COLUMN category TEXT NOT NULL DEFAULT 'Uncategorized'")
+            }
+        }
+
+        val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE transactions ADD COLUMN merchantKey TEXT NOT NULL DEFAULT 'unknown'")
+                db.execSQL("ALTER TABLE transactions ADD COLUMN source TEXT NOT NULL DEFAULT 'SMS'")
+                db.execSQL("UPDATE transactions SET merchantKey = lower(replace(trim(merchant), ' ', '_')) WHERE merchant IS NOT NULL")
+                db.execSQL("CREATE TABLE IF NOT EXISTS merchant_profiles (merchantKey TEXT NOT NULL PRIMARY KEY, displayName TEXT NOT NULL, category TEXT NOT NULL, source TEXT NOT NULL, updatedAt INTEGER NOT NULL)")
             }
         }
     }

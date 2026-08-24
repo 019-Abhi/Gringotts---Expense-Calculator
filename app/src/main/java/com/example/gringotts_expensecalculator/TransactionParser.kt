@@ -21,7 +21,7 @@ object TransactionParser {
         RegexOption.IGNORE_CASE
     )
 
-    fun parse(sender: String, rawMessage: String): Transaction? {
+    fun parse(sender: String, rawMessage: String, timestamp: Long = System.currentTimeMillis()): Transaction? {
         val amountMatch = amountRegex.find(rawMessage) ?: return null
         val amountStr = amountMatch.groupValues[1].replace(",", "")
         val amount = amountStr.toDoubleOrNull() ?: return null
@@ -33,14 +33,17 @@ object TransactionParser {
         }
 
         val merchant = merchantRegex.find(rawMessage)?.groupValues?.get(1)?.trim() ?: "unknown"
+        val merchantKey = merchant.lowercase().replace(Regex("[^a-z0-9]+"), " ").trim().replace(" ", "_")
 
         return Transaction(
             sender = sender,
             rawMessage = rawMessage,
             amount = amount,
             merchant = merchant,
+            merchantKey = merchantKey.ifBlank { "unknown" },
             type = type,
-            category = TransactionCategoryClassifier.categorize(merchant, rawMessage, type)
+            category = TransactionCategoryClassifier.categorize(merchant, rawMessage, type),
+            timestamp = timestamp
         )
     }
 

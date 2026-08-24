@@ -16,6 +16,8 @@ object TransactionCategoryClassifier {
         "Transfers" to listOf("upi", "transfer", "neft", "imps", "to account")
     )
 
+    val availableCategories = rules.keys.toList() + listOf("Income", "Uncategorized")
+
     fun categorize(merchant: String?, rawMessage: String, type: String): String {
         if (type == "credit") return "Income"
         val searchable = "$merchant $rawMessage".lowercase()

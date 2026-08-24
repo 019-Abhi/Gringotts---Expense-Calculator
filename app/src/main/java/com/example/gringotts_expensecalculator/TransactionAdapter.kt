@@ -9,7 +9,10 @@ import androidx.core.graphics.toColorInt
 import java.text.DateFormat
 import java.util.Date
 
-class TransactionAdapter(private val items: List<Transaction>) :
+class TransactionAdapter(
+    private val items: List<Transaction>,
+    private val onTransactionClick: (Transaction) -> Unit
+) :
     RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemTransactionBinding) :
@@ -36,6 +39,7 @@ class TransactionAdapter(private val items: List<Transaction>) :
             tvAmount.setTextColor(color)
             viewTypeDot.backgroundTintList =
                 android.content.res.ColorStateList.valueOf(color)
+            root.setOnClickListener { onTransactionClick(t) }
         }
     }
 
